@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+}
+
+body {
+  width: 100vw;
+  height: auto;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 32px;
+}
+
+button {
+  background: #e9e7e7;
+  border-radius: 16px;
+  height: 48px;
+  width: auto;
+  color: #151515;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  line-height: 1rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.8rem;
+}
+
+p {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1rem;
+  max-width: 38vw;
+}
+/*# sourceMappingURL=style.css.map */
