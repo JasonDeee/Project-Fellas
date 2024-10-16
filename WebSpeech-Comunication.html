@@ -31,7 +31,8 @@
       var ResponseCounter = 0;
       var SpeechCounter = 0;
       let ContentGen = document.createElement("span");
-      let lastFinalTranscript = ""; // Lưu trữ kết quả cuối cùng của cụm từ trước đó
+      let lastFinalTranscript = "";
+      let debounceTimer; // Biến lưu trữ timeout
 
       recognition.addEventListener("result", (event) => {
         const transcript = event.results[0][0].transcript;
@@ -41,11 +42,18 @@
         ResponseCounter++;
         CounterElement.textContent = "Counter: " + ResponseCounter;
 
-        // Kiểm tra xem có kết quả cuối cùng của cụm từ mới hay không
-        if (transcript !== lastFinalTranscript) {
-          SpeechCounter++;
-          SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
-          lastFinalTranscript = transcript; // Cập nhật kết quả cuối cùng
+        // Xử lý đếm trễ
+        if (transcript === lastFinalTranscript) {
+          clearTimeout(debounceTimer); // Xóa timeout cũ nếu có
+
+          // Cài đặt timeout mới
+          debounceTimer = setTimeout(() => {
+            SpeechCounter++;
+            SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
+          }, 500);
+        } else {
+          clearTimeout(debounceTimer); // Xóa timeout nếu transcript thay đổi
+          lastFinalTranscript = transcript;
         }
       });
 
@@ -54,7 +62,7 @@
           if (transcriptBuffer) {
             transcriptBuffer = "";
             contentElement.innerHTML = "Extract Contents Here";
-            lastFinalTranscript = ""; // Reset khi bắt đầu ghi âm mới
+            lastFinalTranscript = "";
           }
           recognition.start();
           statusElement.textContent = "Live Communicating";
