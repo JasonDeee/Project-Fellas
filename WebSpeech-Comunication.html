@@ -11,7 +11,7 @@
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status</h1>
-    <p id="content">Extract Contents Speech</p>
+    <p id="content">Extract Contents Speech End!</p>
     <script>
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
@@ -28,7 +28,7 @@
 
       recognition.continuous = true;
 
-      recognition.onresult = (event) => {
+      recognition.onspeechend = (event) => {
         transcriptBuffer += " " + event.results[0][0].transcript;
         contentElement.textContent = transcriptBuffer;
         ResponseCounter++;
@@ -41,7 +41,7 @@
             transcriptBuffer = "";
             contentElement.textContent = "Extract Contents Here";
           }
-          recognition.onspeechstart();
+          recognition.start();
           statusElement.textContent = "Live Communicating";
           isRecording = true;
         }
