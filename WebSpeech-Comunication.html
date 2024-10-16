@@ -8,19 +8,25 @@
   </head>
   <body>
     <button id="startButton">Start Recording</button>
+    <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status</h1>
     <p id="content">Extract Contents</p>
     <script>
       const startButton = document.getElementById("startButton");
+      const stopButton = document.getElementById("stopButton");
       const statusElement = document.getElementById("status");
       const contentElement = document.getElementById("content");
       const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
 
+      // Kích hoạt nhận dạng liên tục
+      recognition.continuous = true;
+
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        contentElement.textContent = transcript;
+        // Nối kết quả nhận dạng mới vào nội dung hiện có
+        contentElement.textContent += " " + transcript;
       };
 
       startButton.addEventListener("click", () => {
@@ -28,9 +34,10 @@
         statusElement.textContent = "Live Communicating";
       });
 
-      recognition.onend = () => {
+      stopButton.addEventListener("click", () => {
+        recognition.stop();
         statusElement.textContent = "Communication's Status";
-      };
+      });
     </script>
   </body>
 </html>
