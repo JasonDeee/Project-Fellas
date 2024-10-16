@@ -41,7 +41,7 @@
             transcriptBuffer = "";
             contentElement.textContent = "Extract Contents Here";
           }
-          recognition.start();
+          recognition.onspeechstart();
           statusElement.textContent = "Live Communicating";
           isRecording = true;
         }
