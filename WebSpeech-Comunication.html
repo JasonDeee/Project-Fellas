@@ -8,11 +8,13 @@
   </head>
   <body>
     <p id="Response">Counter: 0</p>
+    <p id="SpeechCounter">Speech: 0</p>
+
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
-    <h1 id="status">Communication's Status Update!</h1>
+    <h1 id="status">Communication's Status!</h1>
     <p id="content">
-      Extract Contents Continuous!
+      Extract Contents Continuous Speech Counter!
       <span>Okay</span> <span>Okay</span>
     </p>
     <script>
@@ -21,6 +23,7 @@
       const statusElement = document.getElementById("status");
       const contentElement = document.getElementById("content");
       const CounterElement = document.getElementById("Response");
+      const SpeechCounterElement = document.getElementById("SpeechCounter");
 
       const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -29,18 +32,22 @@
       var transcriptBuffer = "";
       var isRecording = false;
       var ResponseCounter = 0;
+      var SpeechCounter = 0;
+      let ContentGen = document.createElement("span");
 
       // recognition.continuous = true;
 
       recognition.addEventListener("result", (event) => {
         transcriptBuffer = event.results[0][0].transcript;
-        let ContentGen = document.createElement("span");
         ContentGen.textContent = transcriptBuffer;
         contentElement.appendChild(ContentGen);
         ResponseCounter++;
         CounterElement.textContent = "Counter: " + ResponseCounter;
       });
-
+      recognition.onspeechend = (e) => {
+        SpeechCounter++;
+        CounterElement.textContent = "Speech: " + SpeechCounter;
+      };
       startButton.addEventListener("click", () => {
         if (!isRecording) {
           if (transcriptBuffer) {
