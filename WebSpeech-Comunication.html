@@ -13,7 +13,7 @@
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status!</h1>
-    <p id="content">Extract Contents Continuous Speech Let Fixed!</p>
+    <p id="content">Extract Contents Continuous Speech Counter Fixed!</p>
     <script>
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
@@ -31,20 +31,21 @@
       var ResponseCounter = 0;
       var SpeechCounter = 0;
       let ContentGen = document.createElement("span");
+      let lastFinalTranscript = ""; // Lưu trữ kết quả cuối cùng của cụm từ trước đó
 
       recognition.addEventListener("result", (event) => {
-        let result = event.results[0][0];
-        transcriptBuffer = result.transcript;
+        const transcript = event.results[0][0].transcript;
+        transcriptBuffer = transcript;
         ContentGen.textContent = transcriptBuffer;
         contentElement.appendChild(ContentGen);
         ResponseCounter++;
-        CounterElement.textContent =
-          "Counter: " + ResponseCounter + " " + result.isFinal;
+        CounterElement.textContent = "Counter: " + ResponseCounter;
 
-        // Kiểm tra isFinal để đếm SpeechCounter
-        if (result.isFinal == true) {
+        // Kiểm tra xem có kết quả cuối cùng của cụm từ mới hay không
+        if (transcript !== lastFinalTranscript) {
           SpeechCounter++;
           SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
+          lastFinalTranscript = transcript; // Cập nhật kết quả cuối cùng
         }
       });
 
@@ -53,6 +54,7 @@
           if (transcriptBuffer) {
             transcriptBuffer = "";
             contentElement.innerHTML = "Extract Contents Here";
+            lastFinalTranscript = ""; // Reset khi bắt đầu ghi âm mới
           }
           recognition.start();
           statusElement.textContent = "Live Communicating";
