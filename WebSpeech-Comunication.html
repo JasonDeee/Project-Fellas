@@ -13,7 +13,7 @@
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status!</h1>
-    <p id="content">Extract Contents Continuous Speech Counter!</p>
+    <p id="content">Extract Contents Continuous Speech Counter Hey Hey!</p>
     <script>
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
@@ -48,8 +48,10 @@
 
           // Cài đặt timeout mới
           debounceTimer = setTimeout(() => {
-            SpeechCounter++;
-            SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
+            if (transcript === lastFinalTranscript) {
+              SpeechCounter++;
+              SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
+            }
           }, 500);
         } else {
           clearTimeout(debounceTimer); // Xóa timeout nếu transcript thay đổi
