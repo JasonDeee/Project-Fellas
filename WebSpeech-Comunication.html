@@ -14,7 +14,7 @@
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status!</h1>
     <p id="content">
-      Extract Contents Continuous Speech Counter!
+      Extract Contents Continuous Speech Counter Fixed!
       <span>Okay</span> <span>Okay</span>
     </p>
     <script>
@@ -46,7 +46,7 @@
       });
       recognition.onspeechend = (e) => {
         SpeechCounter++;
-        CounterElement.textContent = "Speech: " + SpeechCounter;
+        SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
       };
       startButton.addEventListener("click", () => {
         if (!isRecording) {
