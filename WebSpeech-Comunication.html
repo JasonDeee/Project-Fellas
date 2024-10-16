@@ -22,18 +22,19 @@
       const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
+      recognition.interimResults = true;
       var transcriptBuffer = "";
       var isRecording = false;
       var ResponseCounter = 0;
 
-      recognition.continuous = true;
+      // recognition.continuous = true;
 
-      recognition.onresult = (event) => {
+      recognition.addEventListener("result", (event) => {
         transcriptBuffer += " " + event.results[0][0].transcript;
         contentElement.textContent = transcriptBuffer;
         ResponseCounter++;
         CounterElement.textContent = "Counter: " + ResponseCounter;
-      };
+      });
 
       startButton.addEventListener("click", () => {
         if (!isRecording) {
