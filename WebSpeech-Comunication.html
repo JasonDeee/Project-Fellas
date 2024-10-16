@@ -52,6 +52,7 @@
               SpeechCounter++;
               SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
             }
+            clearTimeout(debounceTimer); // Xóa timeout nếu transcript thay đổi
           }, 500);
         } else {
           clearTimeout(debounceTimer); // Xóa timeout nếu transcript thay đổi
