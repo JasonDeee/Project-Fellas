@@ -11,7 +11,7 @@
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status</h1>
-    <p id="content">Extract Contents Clear!</p>
+    <p id="content">Extract Contents Continuous!</p>
     <script>
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
@@ -27,11 +27,14 @@
       var isRecording = false;
       var ResponseCounter = 0;
 
-      // recognition.continuous = true;
+      let ContentGen = document.createElement("span");
+
+      recognition.continuous = true;
 
       recognition.addEventListener("result", (event) => {
         transcriptBuffer = event.results[0][0].transcript;
-        contentElement.textContent = transcriptBuffer;
+        ContentGen.textContent = transcriptBuffer;
+        contentElement.appendChild(ContentGen);
         ResponseCounter++;
         CounterElement.textContent = "Counter: " + ResponseCounter;
       });
@@ -53,7 +56,7 @@
           recognition.stop();
           statusElement.textContent = "Communication's Status";
           isRecording = false;
-          transcriptBuffer = "";
+          transcriptBuffer = "Contents Stopped";
           contentElement.textContent = transcriptBuffer;
         }
       });

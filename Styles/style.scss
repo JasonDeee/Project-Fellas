@@ -40,4 +40,9 @@ p {
   font-weight: 500;
   line-height: 1rem;
   max-width: 720px;
+  span {
+    background: #e9e7e7;
+    padding: 12px;
+    border-radius: 8px;
+  }
 }

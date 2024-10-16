@@ -58,4 +58,10 @@ p {
   line-height: 1rem;
   max-width: 720px;
 }
+
+p span {
+  background: #e9e7e7;
+  padding: 12px;
+  border-radius: 8px;
+}
 /*# sourceMappingURL=style.css.map */
