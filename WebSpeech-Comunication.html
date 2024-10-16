@@ -19,27 +19,34 @@
       const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
-      let transcriptBuffer = ""; // Biến lưu trữ kết quả nhận dạng tạm thời
+      let transcriptBuffer = "";
+      let isRecording = false; // Biến kiểm tra trạng thái đang ghi âm
 
       recognition.continuous = true;
 
       recognition.onresult = (event) => {
-        transcriptBuffer += " " + event.results[0][0].transcript; // Cập nhật buffer
+        transcriptBuffer += " " + event.results[0][0].transcript;
+        contentElement.textContent = transcriptBuffer; // Cập nhật trực tiếp
       };
 
       startButton.addEventListener("click", () => {
-        recognition.start();
-        statusElement.textContent = "Live Communicating";
-        // Cập nhật nội dung thẻ <p> mỗi 100ms
-        setInterval(() => {
-          contentElement.textContent = transcriptBuffer;
-          transcriptBuffer = ""; // Xóa buffer sau khi cập nhật
-        }, 100);
+        if (!isRecording) {
+          if (transcriptBuffer) {
+            transcriptBuffer = ""; // Xóa buffer nếu bắt đầu ghi âm lại
+            contentElement.textContent = "Extract Contents Here";
+          }
+          recognition.start();
+          statusElement.textContent = "Live Communicating";
+          isRecording = true;
+        }
       });
 
       stopButton.addEventListener("click", () => {
-        recognition.stop();
-        statusElement.textContent = "Communication's Status";
+        if (isRecording) {
+          recognition.stop();
+          statusElement.textContent = "Communication's Status";
+          isRecording = false;
+        }
       });
     </script>
   </body>
