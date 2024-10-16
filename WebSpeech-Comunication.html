@@ -10,7 +10,7 @@
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status</h1>
-    <p id="content">Extract Contents</p>
+    <p id="content">Extract Contents Here!</p>
     <script>
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
@@ -27,6 +27,7 @@
 
       recognition.onresult = (event) => {
         transcriptBuffer += " " + event.results[0][0].transcript;
+        contentElement.textContent = transcriptBuffer;
       };
 
       startButton.addEventListener("click", () => {
@@ -38,11 +39,6 @@
           recognition.start();
           statusElement.textContent = "Live Communicating";
           isRecording = true;
-
-          // Khởi động lại setInterval khi bắt đầu ghi âm
-          updateInterval = setInterval(() => {
-            contentElement.textContent = transcriptBuffer;
-          }, 100);
         }
       });
 
@@ -51,9 +47,8 @@
           recognition.stop();
           statusElement.textContent = "Communication's Status";
           isRecording = false;
-
-          // Xóa setInterval khi dừng ghi âm
-          clearInterval(updateInterval);
+          transcriptBuffer = "";
+          contentElement.textContent = transcriptBuffer;
         }
       });
     </script>
