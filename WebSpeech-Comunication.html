@@ -13,7 +13,7 @@
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status!</h1>
-    <p id="content">Extract Contents Continuous Speech Counter Upgraded!</p>
+    <p id="content">Extract Contents Continuous Speech Counter!</p>
     <script>
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
@@ -38,10 +38,11 @@
         ContentGen.textContent = transcriptBuffer;
         contentElement.appendChild(ContentGen);
         ResponseCounter++;
-        CounterElement.textContent = "Counter: " + ResponseCounter;
+        CounterElement.textContent =
+          "Counter: " + ResponseCounter + " " + result.isFinal;
 
         // Kiểm tra isFinal để đếm SpeechCounter
-        if (result.isFinal) {
+        if (result.isFinal == true) {
           SpeechCounter++;
           SpeechCounterElement.textContent = "Speech: " + SpeechCounter;
         }
