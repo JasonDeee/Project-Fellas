@@ -10,7 +10,7 @@
     <p id="Response">Counter: 0</p>
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
-    <h1 id="status">Communication's Status</h1>
+    <h1 id="status">Communication's Status Update!</h1>
     <p id="content">
       Extract Contents Continuous!
       <span>Okay</span> <span>Okay</span>
@@ -30,12 +30,11 @@
       var isRecording = false;
       var ResponseCounter = 0;
 
-      let ContentGen = document.createElement("span");
-
       // recognition.continuous = true;
 
       recognition.addEventListener("result", (event) => {
         transcriptBuffer = event.results[0][0].transcript;
+        let ContentGen = document.createElement("span");
         ContentGen.textContent = transcriptBuffer;
         contentElement.appendChild(ContentGen);
         ResponseCounter++;
