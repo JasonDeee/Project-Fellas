@@ -12,7 +12,7 @@
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status</h1>
     <p id="content">
-      Extract Contents Continuous Fixed!
+      Extract Contents Continuous!
       <span>Okay</span> <span>Okay</span>
     </p>
     <script>
@@ -32,7 +32,7 @@
 
       let ContentGen = document.createElement("span");
 
-      recognition.continuous = true;
+      // recognition.continuous = true;
 
       recognition.addEventListener("result", (event) => {
         transcriptBuffer = event.results[0][0].transcript;
