@@ -13,7 +13,7 @@
     <button id="startButton">Start Recording</button>
     <button id="stopButton">Stop Recording</button>
     <h1 id="status">Communication's Status!</h1>
-    <p id="content">Extract Contents Continuous Speech Counter!</p>
+    <p id="content">Extract Contents Continuous Speech Let Fixed!</p>
     <script>
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
@@ -33,7 +33,7 @@
       let ContentGen = document.createElement("span");
 
       recognition.addEventListener("result", (event) => {
-        const result = event.results[0][0];
+        let result = event.results[0][0];
         transcriptBuffer = result.transcript;
         ContentGen.textContent = transcriptBuffer;
         contentElement.appendChild(ContentGen);
