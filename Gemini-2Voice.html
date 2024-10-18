@@ -8,7 +8,7 @@
   </head>
   <body>
     <input type="text" id="Gemini-Input" placeholder="Nhập prompt..." />
-    <button id="Gemini-RequestButton">Execute</button>
+    <button id="Gemini-RequestButton">Execute Fixed</button>
     <select id="Voice-EngineSelect">
       <option value="web">Web Speech</option>
       <option value="google">Google Cloud Speech</option>
@@ -17,6 +17,7 @@
     <audio id="audioPlayer" controls style="display: none"></audio>
 
     <script src="https://cdn.jsdelivr.net/npm/@google-cloud/text-to-speech@4.1.0/build/src/index.js"></script>
+
     <script>
       const apiKey = "AIzaSyDbbfqZ5VC6v4AdmugerAtMfNOg2YdD5Pg"; // Thay thế bằng API key của bạn
       const inputElement = document.getElementById("Gemini-Input");
@@ -26,7 +27,7 @@
       const audioPlayer = document.getElementById("audioPlayer");
 
       // *** Google Cloud Text-to-Speech ***
-      const textToSpeechClient = new TextToSpeechClient({
+      const textToSpeechClientWeb = new TextToSpeechClient({
         // keyFilename: 'path/to/your/keyfile.json' // Nếu sử dụng key file
         // Hoặc, truyền trực tiếp credentials (không khuyến khích cho môi trường production)
         credentials: {
@@ -103,7 +104,7 @@
               audioConfig: { audioEncoding: "MP3" },
             };
 
-            const [response] = await textToSpeechClient.synthesizeSpeech(
+            const [response] = await textToSpeechClientWeb.synthesizeSpeech(
               request
             );
             const audioContent = response.audioContent;
