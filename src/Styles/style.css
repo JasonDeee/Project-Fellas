@@ -8,7 +8,8 @@
   font-optical-sizing: auto;
 }
 
-body {
+body,
+.App {
   width: 100vw;
   height: auto;
   min-height: 100vh;
@@ -125,10 +126,15 @@ p span {
   cursor: pointer;
   border: none;
   outline: none;
+  border-radius: 8px;
 }
 
 #Voice-EngineSelect {
   background: #151515;
   color: white;
+}
+
+#audioPlayer {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */
