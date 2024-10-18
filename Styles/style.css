@@ -44,6 +44,16 @@ button {
       -ms-flex-pack: center;
           justify-content: center;
   line-height: 1rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  -webkit-transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
+  transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
+}
+
+button:hover {
+  color: #e9e7e7;
+  background: #151515;
 }
 
 h1 {
@@ -78,5 +88,47 @@ p span {
   padding: 12px;
   display: inline-block;
   border-radius: 8px;
+}
+
+#Gemini-Input {
+  width: 38vw;
+  height: auto;
+  min-height: 64px;
+  font-size: 1rem;
+  line-height: 1rem;
+  background: #151515;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 16px;
+  padding: 8px;
+  text-align: center;
+  -webkit-transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
+  transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
+}
+
+#Gemini-Input:hover {
+  background: #424242;
+}
+
+#Gemini-ResponseContent {
+  margin-top: 4px;
+}
+
+#Voice-EngineSelect {
+  min-height: 32px;
+  padding: 8px;
+  background: #e9e7e7;
+  color: #151515;
+  -webkit-transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
+  transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+#Voice-EngineSelect {
+  background: #151515;
+  color: white;
 }
 /*# sourceMappingURL=style.css.map */
