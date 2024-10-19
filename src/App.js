@@ -15,9 +15,9 @@ function App() {
 
   const apiKey = "AIzaSyDbbfqZ5VC6v4AdmugerAtMfNOg2YdD5Pg"; // Thay thế bằng API key của bạn
   // Khởi tạo TextToSpeechClient
-  const textToSpeechClient = new TextToSpeechClient({
-    apiKey: apiKey,
-  });
+  // const textToSpeechClient = new TextToSpeechClient({
+  //   apiKey: apiKey,
+  // });
   // Hàm xử lý thay đổi input prompt
   const handlePromptChange = (event) => {
     setPromptText(event.target.value);
@@ -93,15 +93,15 @@ function App() {
           audioConfig: { audioEncoding: "MP3" },
         };
 
-        const [response] = await textToSpeechClient.synthesizeSpeech(request);
-        const audioContent = response.audioContent;
+        //  const [response] = await textToSpeechClient.synthesizeSpeech(request);
+        // const audioContent = response.audioContent;
 
         // Phát audio bằng thẻ <audio>
-        const audioBlob = new Blob([audioContent], { type: "audio/mp3" });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        audioPlayerRef.current.src = audioUrl;
-        audioPlayerRef.current.style.display = "block";
-        audioPlayerRef.current.play();
+        // const audioBlob = new Blob([audioContent], { type: "audio/mp3" });
+        // const audioUrl = URL.createObjectURL(audioBlob);
+        // audioPlayerRef.current.src = audioUrl;
+        // audioPlayerRef.current.style.display = "block";
+        // audioPlayerRef.current.play();
       } catch (error) {
         console.error("Lỗi khi gọi Google Cloud Text-to-Speech:", error);
         setGeneratedText("Lỗi khi phát âm thanh.");
