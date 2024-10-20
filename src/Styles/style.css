@@ -9,10 +9,10 @@
 }
 
 body,
-.App {
+.App,
+.SpeechCommunicator-container {
   width: 100vw;
-  height: auto;
-  min-height: 100vh;
+  height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -20,121 +20,191 @@ body,
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  gap: 32px;
+  background-color: #333;
+  color: white;
+  padding: 1rem 2rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.content-wrapper {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: hidden;
+}
+
+.main-content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #e9e7e7 #f1f1f1;
+}
+
+.main-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #e9e7e7;
+  border-radius: 5px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: #d1d1d1;
+}
+
+.main-content::-webkit-scrollbar-button {
+  display: none;
+}
+
+.top-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.counters {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+}
+
+.counter {
+  background-color: #e0e0e0;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+.recognized-text,
+.generated-text {
+  background-color: #e0e0e0;
+  padding: 1rem;
+  border-radius: 10px;
+  min-height: 100px;
+}
+
+.generated-text {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow-y: auto;
+}
+
+.controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1rem 2rem;
+  background-color: #e9e7e7;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 button {
-  background: #e9e7e7;
-  border-radius: 16px;
-  height: 48px;
-  width: auto;
-  color: #151515;
-  padding: 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  line-height: 1rem;
-  cursor: pointer;
+  padding: 0.75rem 1.5rem;
   border: none;
-  outline: none;
-  -webkit-transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
-  transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
-}
-
-button:hover {
-  color: #e9e7e7;
-  background: #151515;
-}
-
-h1 {
-  text-align: center;
-  font-size: 2.8rem;
-}
-
-p {
-  text-align: center;
-  font-size: 0.9rem;
-  font-weight: 500;
-  line-height: 1rem;
-  max-width: 720px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: start;
-  gap: 2px;
-}
-
-p span {
-  background: #e9e7e7;
-  padding: 12px;
-  display: inline-block;
-  border-radius: 8px;
-}
-
-#Gemini-Input {
-  width: 38vw;
-  height: auto;
-  min-height: 64px;
-  font-size: 1rem;
-  line-height: 1rem;
-  background: #151515;
+  border-radius: 25px;
   color: white;
-  border: none;
-  outline: none;
-  border-radius: 16px;
-  padding: 8px;
-  text-align: center;
-  -webkit-transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
-  transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
-}
-
-#Gemini-Input:hover {
-  background: #424242;
-}
-
-#Gemini-ResponseContent {
-  margin-top: 4px;
-}
-
-#Voice-EngineSelect {
-  min-height: 32px;
-  padding: 8px;
-  background: #e9e7e7;
-  color: #151515;
-  -webkit-transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
-  transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
+  font-weight: bold;
   cursor: pointer;
-  border: none;
-  outline: none;
-  border-radius: 8px;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
 }
 
-#Voice-EngineSelect {
-  background: #151515;
+.start-recording {
+  background-color: #008080;
+}
+
+.stop-recording {
+  background-color: #d81b60;
+}
+
+.reset {
+  background-color: #c62828;
+}
+
+select {
+  background-color: #333;
   color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
-#audioPlayer {
-  display: none;
+audio {
+  width: 300px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+  }
+  .controls {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 1rem;
+  }
+  button,
+  select,
+  audio {
+    width: 100%;
+  }
 }
 /*# sourceMappingURL=style.css.map */

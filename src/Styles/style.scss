@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -6,99 +7,162 @@
   font-family: "Lexend", sans-serif;
   font-optical-sizing: auto;
 }
+
 body,
-.App {
+.App,
+.SpeechCommunicator-container {
   width: 100vw;
-  height: auto;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 32px;
+  background-color: #333;
+  color: white;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+
+  // Tùy chỉnh thanh cuộn
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #e9e7e7;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #d1d1d1;
+  }
+
+  // Ẩn các mũi tên trên thanh cuộn
+  scrollbar-width: thin;
+  scrollbar-color: #e9e7e7 #f1f1f1;
+}
+
+.main-content::-webkit-scrollbar-button {
+  display: none;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counters {
+  display: flex;
+  gap: 1rem;
+}
+
+.counter {
+  background-color: #e0e0e0;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+.recognized-text,
+.generated-text {
+  background-color: #e0e0e0;
+  padding: 1rem;
+  border-radius: 10px;
+  min-height: 100px;
+}
+
+.generated-text {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #e9e7e7; // Thay đổi màu nền của controls
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 button {
-  background: #e9e7e7;
-  border-radius: 16px;
-  height: 48px;
-  width: auto;
-  color: #151515;
-  padding: 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  align-items: center;
-  justify-content: center;
-  line-height: 1rem;
-  cursor: pointer;
+  padding: 0.75rem 1.5rem;
   border: none;
-  outline: none;
-  transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
-}
-button:hover {
-  color: #e9e7e7;
-  background: #151515;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-h1 {
-  text-align: center;
-  font-size: 2.8rem;
+.start-recording {
+  background-color: #008080;
 }
-p {
-  text-align: center;
-  font-size: 0.9rem;
-  font-weight: 500;
-  line-height: 1rem;
-  max-width: 720px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  gap: 2px;
-  span {
-    background: #e9e7e7;
-    padding: 12px;
-    display: inline-block;
-    border-radius: 8px;
+
+.stop-recording {
+  background-color: #d81b60;
+}
+
+.reset {
+  background-color: #c62828;
+}
+
+select {
+  background-color: #333;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+audio {
+  width: 300px;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
   }
-}
 
-#Gemini-Input {
-  width: 38vw;
-  height: auto;
-  min-height: 64px;
-  font-size: 1rem;
-  line-height: 1rem;
-  background: #151515;
-  color: white;
-  border: none;
-  outline: none;
-  border-radius: 16px;
-  padding: 8px;
-  text-align: center;
-  transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
-}
-#Gemini-Input:hover {
-  background: #424242;
-}
-#Gemini-ResponseContent {
-  margin-top: 4px;
-}
-#Voice-EngineSelect {
-  min-height: 32px;
-  padding: 8px;
-  background: #e9e7e7;
-  color: #151515;
-  transition: all 0.66s cubic-bezier(0.25, 0, 0, 1);
-  cursor: pointer;
-  border: none;
-  outline: none;
-  border-radius: 8px;
-}
-#Voice-EngineSelect {
-  background: #151515;
-  color: white;
-}
-#audioPlayer {
-  display: none;
+  .controls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  button,
+  select,
+  audio {
+    width: 100%;
+  }
 }
