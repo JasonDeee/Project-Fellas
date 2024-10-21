@@ -4,11 +4,12 @@ import "./Styles/style.css";
 import TextToSpeech from "./Components/TextToSpeech";
 import Synthesizer from "./Components/Synthesizer";
 import SpeechCommunicator from "./Components/SpeechCommunicator";
+import Javier from "./Components/Javier";
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App" id="App-container">
         <Routes>
           <Route path="/text-to-speech" element={<TextToSpeech />} />
           <Route path="/synthesizer" element={<Synthesizer />} />
@@ -28,6 +29,9 @@ function App() {
                   </Link>
                   <Link to="/speech-communicator">
                     <button>Speech Communicator</button>
+                  </Link>
+                  <Link to="/javier">
+                    <button>Javier</button>
                   </Link>
                 </nav>
               </>

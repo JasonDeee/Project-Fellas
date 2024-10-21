@@ -4,10 +4,14 @@ module.exports = {
   // ... các cấu hình khác ...
   resolve: {
     fallback: {
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+      assert: require.resolve("assert"),
       http: require.resolve("stream-http"),
       https: require.resolve("https-browserify"),
-      stream: require.resolve("stream-browserify"),
-      util: require.resolve("util/"),
+      os: require.resolve("os-browserify/browser"),
+      tls: false,
+      net: false,
     },
   },
   plugins: [
