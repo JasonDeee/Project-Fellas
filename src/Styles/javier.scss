@@ -64,6 +64,14 @@
       font-family: "Lexend", sans-serif;
       font-weight: 500;
     }
+    p {
+      color: $color-30;
+      background: $color-10;
+      padding: 12px;
+      border-radius: 12px;
+      width: fit-content;
+      margin-top: 8px;
+    }
   }
 
   .right-column {

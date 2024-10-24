@@ -57,8 +57,14 @@ const Temp = () => {
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
-    // Add sent message to UI
-    setMessages([...messages, { type: "sent", content: inputMessage }]);
+    // Add sent message to UI at the beginning of the array
+    setMessages((prevMessages) => [
+      { type: "sent", content: inputMessage },
+      ...prevMessages,
+    ]);
+
+    // Clear input field
+    setInputMessage("");
 
     // Send message to Google Sheets
     try {
@@ -73,24 +79,21 @@ const Temp = () => {
 
       console.log("Request sent to Google Sheets");
 
-      // Add received message to UI
+      // Add received message to UI at the beginning of the array
       setMessages((prevMessages) => [
-        ...prevMessages,
         {
           type: "received",
           content: "Message sent (no confirmation available)",
         },
+        ...prevMessages,
       ]);
     } catch (error) {
       console.error("Error sending request:", error);
       setMessages((prevMessages) => [
-        ...prevMessages,
         { type: "received", content: "Failed to send message" },
+        ...prevMessages,
       ]);
     }
-
-    // Clear input field
-    setInputMessage("");
   };
 
   return (

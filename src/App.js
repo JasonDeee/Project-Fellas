@@ -15,7 +15,7 @@ function App() {
           <Route path="/text-to-speech" element={<TextToSpeech />} />
           <Route path="/synthesizer" element={<Synthesizer />} />
           <Route path="/speech-communicator" element={<SpeechCommunicator />} />
-          <Route path="/javier" element={<Javier />} />
+          <Route path="/Javier" element={<Javier />} />
           <Route path="/temp" element={<Temp />} />
           <Route
             path="/"
@@ -33,7 +33,7 @@ function App() {
                   <Link to="/speech-communicator">
                     <button>Speech Communicator</button>
                   </Link>
-                  <Link to="/javier">
+                  <Link to="/Javier">
                     <button>Javier</button>
                   </Link>
                   <Link to="/temp">
