@@ -5,6 +5,7 @@ import TextToSpeech from "./Components/TextToSpeech";
 import Synthesizer from "./Components/Synthesizer";
 import SpeechCommunicator from "./Components/SpeechCommunicator";
 import Javier from "./Components/Javier";
+import Temp from "./Components/temp";
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
           <Route path="/text-to-speech" element={<TextToSpeech />} />
           <Route path="/synthesizer" element={<Synthesizer />} />
           <Route path="/speech-communicator" element={<SpeechCommunicator />} />
+          <Route path="/javier" element={<Javier />} />
+          <Route path="/temp" element={<Temp />} />
           <Route
             path="/"
             element={
@@ -32,6 +35,9 @@ function App() {
                   </Link>
                   <Link to="/javier">
                     <button>Javier</button>
+                  </Link>
+                  <Link to="/temp">
+                    <button>Temp</button>
                   </Link>
                 </nav>
               </>

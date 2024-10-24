@@ -1,0 +1,282 @@
+// Import variables
+@import "./variables.scss";
+
+// Component styles
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  background: $map-black;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  padding: 24px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none !important;
+
+  &-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    h1 {
+      color: $color-30;
+      font-size: 24px;
+      font-family: "Lexend", sans-serif;
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 13.33px;
+      height: 13.33px;
+      background: $color-10;
+    }
+  }
+
+  &-right {
+    display: flex;
+    gap: 24px;
+  }
+}
+
+.two-column-layout {
+  display: flex;
+  gap: 24px;
+  padding: 0 24px 24px 24px;
+  height: calc(100vh - 90px); // Trừ đi chiều cao của header và padding
+
+  .left-column {
+    min-width: 24vw;
+    max-width: 480px;
+    background: $main-bg;
+    border-radius: 24px;
+    padding: 32px;
+    border-left: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
+    border-top: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
+
+    h2 {
+      color: $color-30;
+      font-size: 24px;
+      font-family: "Lexend", sans-serif;
+      font-weight: 500;
+    }
+  }
+
+  .right-column {
+    flex: 1;
+    background: $main-bg;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
+    border-top: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
+    overflow: hidden;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.main-content {
+  flex: 1;
+  padding: 0 24px 24px;
+  display: flex;
+  gap: 24px;
+}
+
+.config-panel {
+  width: 480px;
+  padding: 32px;
+  background: $main-bg;
+  border-radius: 24px;
+  border-left: 1px solid rgba($color-30, 0.08);
+  border-top: 1px solid rgba($color-30, 0.08);
+
+  h2 {
+    color: $color-30;
+    font-size: 24px;
+    font-family: "Lexend", sans-serif;
+    font-weight: 500;
+  }
+}
+
+.chat-panel {
+  flex: 1;
+  background: $main-bg;
+  border-radius: 24px;
+  border-left: 1px solid rgba($color-30, 0.08);
+  border-top: 1px solid rgba($color-30, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-container {
+  flex: 1;
+  padding: 24px 16px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 16px;
+  overflow-y: scroll;
+  // justify-content: flex-end;
+  // max-height: calc(100vh - 200px); /* Adjust based on your layout */
+}
+
+.message {
+  padding: 12px;
+  border-radius: 16px;
+  max-width: 80%;
+
+  &.received {
+    align-self: flex-start; // Thay đổi từ flex-end sang flex-start
+    background: $color-10; // Sử dụng màu đỏ cho tin nhắn nhận
+    color: $color-30;
+  }
+
+  &.sent {
+    align-self: flex-end; // Thay đổi từ flex-start sang flex-end
+    background: $color-60-alt; // Sử dụng màu xám cho tin nhắn gửi
+    color: $color-30;
+  }
+
+  img {
+    max-width: 400px;
+    border-radius: 8px;
+  }
+}
+
+.input-area {
+  position: sticky;
+  bottom: 24px;
+  padding: 0 32px;
+  // margin-bottom: 24px;
+  background: $main-bg; /* Ensure background matches */
+  z-index: 10; /* Ensure it stays on top */
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: $color-60-alt;
+    border-radius: 12px;
+    padding: 8px;
+    border-left: 1px solid rgba($color-30, 0.08);
+    border-top: 1px solid rgba($color-30, 0.08);
+  }
+
+  .text-input {
+    flex: 1;
+    background: rgba($color-60-black, 0.38);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 48px; // Thêm chiều cao cố định
+
+    .message-icon {
+      margin-left: 12px; // Chuyển padding sang margin
+      width: 24px;
+      height: 24px;
+    }
+
+    input {
+      flex: 1;
+      background: transparent;
+      border: none !important;
+      stroke: none;
+      outline: none;
+      color: $color-30;
+      margin-right: 12px; // Thêm margin
+      height: 100%; // Fill kín chiều cao của parent
+      &::placeholder {
+        color: rgba($color-30, 0.5);
+      }
+    }
+  }
+
+  .media-button {
+    padding: 12px 24px;
+    background: rgba($color-60-black, 0.38);
+    border-radius: 8px;
+  }
+
+  .send-button {
+    padding: 12px 32px;
+    background: $color-10 !important;
+    border-radius: 24px;
+  }
+}
+
+#inputArea {
+  // padding: 0;
+  padding-left: 16px;
+  padding-right: calc(32px + 48px);
+  // margin-bottom: 24px;
+
+  #inputContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: $color-60-alt;
+    border-radius: 12px;
+    padding: 8px;
+    padding-right: 60px;
+    border-left: 1px solid rgba($color-30, 0.08);
+    border-top: 1px solid rgba($color-30, 0.08);
+    position: relative;
+  }
+
+  #textInput {
+    flex: 1;
+    background: rgba($color-60-black, 0.38);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 48px;
+
+    #messageIcon {
+      margin-left: 12px;
+      width: 24px;
+      height: 24px;
+    }
+
+    #messageInputField {
+      flex: 1;
+      background: transparent;
+      border: none !important;
+      stroke: none;
+      outline: none;
+      color: $color-30;
+      margin-right: 12px;
+      height: 100%;
+      &::placeholder {
+        color: rgba($color-30, 0.5);
+      }
+    }
+  }
+
+  .media-button {
+    padding: 12px 24px;
+    background: rgba($color-60-black, 0.38);
+    border-radius: 8px;
+  }
+
+  #sendButton {
+    padding: 12px 32px;
+    background: $color-10;
+    border-radius: 24px;
+    position: absolute;
+    right: 0;
+    width: 96px;
+    transition: all 0.3s ease;
+    transform: translateX(50%);
+  }
+  #sendButton:hover {
+    background: $color-10-dark !important;
+  }
+}

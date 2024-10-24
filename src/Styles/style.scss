@@ -1,3 +1,7 @@
+// Import variables
+@import "./variables.scss";
+
+// Import fonts
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 
 * {
@@ -15,7 +19,7 @@ body,
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: $color-30-light;
   overflow: hidden;
 }
 #App-container {
@@ -27,12 +31,12 @@ body,
   justify-content: center;
   gap: 8px;
   button {
-    background: #151515;
-    color: white;
+    background: $map-black;
+    color: $color-30;
     transition: all 0.6s cubic-bezier(0.25, 0, 0, 1);
     &:hover {
-      background: #e9e7e7;
-      color: #151515;
+      background: $color-30-light;
+      color: $map-black;
     }
   }
   nav {
@@ -44,8 +48,8 @@ body,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: white;
+  background-color: $color-60-dark;
+  color: $color-30;
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
@@ -73,21 +77,21 @@ body,
   }
 
   &::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: $color-30-light;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #e9e7e7;
+    background: $color-30-light;
     border-radius: 5px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: #d1d1d1;
+    background: $color-30-light;
   }
 
   // Ẩn các mũi tên trên thanh cuộn
   scrollbar-width: thin;
-  scrollbar-color: #e9e7e7 #f1f1f1;
+  scrollbar-color: $color-30-light $color-30-light;
 }
 
 .main-content::-webkit-scrollbar-button {
@@ -106,14 +110,14 @@ body,
 }
 
 .counter {
-  background-color: #e0e0e0;
+  background-color: $color-30-light;
   padding: 0.5rem 1rem;
   border-radius: 20px;
 }
 
 .recognized-text,
 .generated-text {
-  background-color: #e0e0e0;
+  background-color: $color-30-light;
   padding: 1rem;
   border-radius: 10px;
   min-height: 100px;
@@ -129,7 +133,7 @@ body,
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #e9e7e7; // Thay đổi màu nền của controls
+  background-color: $color-30-light;
   position: sticky;
   bottom: 0;
   z-index: 10;
@@ -139,27 +143,27 @@ button {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 25px;
-  color: white;
+  color: $color-30;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .start-recording {
-  background-color: #008080;
+  background-color: $color-60-blue;
 }
 
 .stop-recording {
-  background-color: #d81b60;
+  background-color: $color-10;
 }
 
 .reset {
-  background-color: #c62828;
+  background-color: $color-10-dark;
 }
 
 select {
-  background-color: #333;
-  color: white;
+  background-color: $color-60-dark;
+  color: $color-30;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 20px;
@@ -187,3 +191,6 @@ audio {
     width: 100%;
   }
 }
+
+// Import components styles
+@import "./javier.scss";
