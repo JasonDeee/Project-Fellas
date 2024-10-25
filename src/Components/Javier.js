@@ -34,6 +34,7 @@ function Javier() {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCallingJavier, setIsCallingJavier] = useState(false);
 
   const sendMessageToSheet = async (message, type = "text") => {
     const tempId = Date.now().toString();
@@ -197,6 +198,9 @@ function Javier() {
             { type: "sent", content: `Voice: ${transcriptText}` },
             ...prevMessages,
           ]);
+
+          // Remove the "OnCalling" class
+          setIsCallingJavier(false);
         }
         if (
           isFocusing === true &&
@@ -205,6 +209,9 @@ function Javier() {
         ) {
           console.log("I Can't Hear You, Boss");
           isFocusing = false;
+
+          // Remove the "OnCalling" class
+          setIsCallingJavier(false);
         }
 
         if (
@@ -214,7 +221,13 @@ function Javier() {
         ) {
           AssistRequest(transcriptText);
           isFocusing = true;
+          setIsCallingJavier(true); // Set the calling state to true
           console.log(isFocusing);
+
+          // Set a timeout to reset the calling state after 5 seconds
+          setTimeout(() => {
+            setIsCallingJavier(false);
+          }, 5000);
         }
       };
 
@@ -362,9 +375,11 @@ function Javier() {
           <button
             id="record-button"
             onClick={toggleListening}
-            className={isListening ? "Synth Active" : "Synth"}
+            className={`Synth ${isListening ? "Active" : ""} ${
+              isCallingJavier ? "OnCalling" : ""
+            }`}
           >
-            <img src={isListening ? StopIcon : RecordIcon} />
+            <img src={isListening ? StopIcon : RecordIcon} alt="R" title="R" />
             {isListening ? "Stop Synth" : "Start Synth"}
           </button>
         </div>

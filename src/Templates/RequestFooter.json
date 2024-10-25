@@ -1,0 +1,22 @@
+[
+  {
+    "name": "isFinal",
+    "role": "Bạn có cần tôi cung cấp thêm lịch sử của đoạn chat cũ hơn không? nếu có hãy trả về false, nếu không hãy trả về true"
+  },
+  {
+    "name": "speech",
+    "role": "Bạn muốn nói gì với tôi? Nếu bạn chưa có câu trả lời hãy trả về nội dung có dạng: \"Hãy chờ tôi một lát.\""
+  },
+  {
+    "name": "contents",
+    "role": "Bạn sẽ trả về nội dung của câu hỏi cuối cùng của người dùng"
+  },
+  {
+    "name": "Concluded",
+    "role": "Hãy tóm gọn lại những gì chúng ta vừa hỏi và trả lời trong trường này, nếu bạn vẫn cần thêm lịch sử của đoạn chat cũ và chưa thể tóm gọn hãy trả về false"
+  },
+  {
+    "name": "ResolveStep",
+    "role": "hãy cộng 1 vào ResolveStep khi trả về cho tôi trong bất cứ trường hợp nào"
+  }
+]
