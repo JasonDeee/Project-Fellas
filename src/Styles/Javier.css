@@ -73,6 +73,20 @@
   padding: 32px;
   border-left: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
 }
 
 .two-column-layout .left-column h2 {
@@ -80,17 +94,67 @@
   font-size: 24px;
   font-family: "Lexend", sans-serif;
   font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.two-column-layout .left-column #leftColumnTitle {
+  position: absolute;
+  top: 32px;
+}
+
+.two-column-layout .left-column .transcripts {
+  margin-bottom: 16px;
 }
 
 .two-column-layout .left-column p {
   color: #ffffff;
-  background: #e72166;
-  padding: 12px;
-  border-radius: 12px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  width: 100%;
   margin-top: 8px;
+}
+
+.two-column-layout .left-column #record-button {
+  background-color: #e72166;
+  color: #ffffff;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+.two-column-layout .left-column #record-button:hover {
+  background-color: #c01551;
+}
+
+.two-column-layout .left-column #record-button img {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.two-column-layout .left-column #record-button.Active {
+  border: 1px solid #e72166;
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.two-column-layout .left-column #record-button.Active:hover {
+  background: rgba(0, 0, 0, 0.38);
+  background-color: #e72166;
 }
 
 .two-column-layout .right-column {
@@ -115,6 +179,11 @@
   display: none;
 }
 
+.two-column-layout .right-column .ResponseAwaiting {
+  width: auto;
+  text-align: center;
+}
+
 .main-content {
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -124,6 +193,8 @@
   display: -ms-flexbox;
   display: flex;
   gap: 24px;
+  -webkit-transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
+  transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
 }
 
 .config-panel {
@@ -164,7 +235,8 @@
       -ms-flex: 1;
           flex: 1;
   padding: 24px 16px;
-  margin-bottom: 24px;
+  padding-bottom: 8px;
+  margin-bottom: 48px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -174,6 +246,16 @@
           flex-direction: column-reverse;
   gap: 16px;
   overflow-y: scroll;
+}
+
+.ContentAwaiting {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: rgba(0, 0, 0, 0.62);
 }
 
 .message {
@@ -385,4 +467,4 @@
 #inputArea #sendButton:hover {
   background: #9e0e40 !important;
 }
-/*# sourceMappingURL=javier.css.map */
+/*# sourceMappingURL=Javier.css.map */

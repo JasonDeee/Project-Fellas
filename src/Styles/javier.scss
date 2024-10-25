@@ -55,22 +55,71 @@
     background: $main-bg;
     border-radius: 24px;
     padding: 32px;
-    border-left: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
-    border-top: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
+    border-left: 1px solid rgba($color-30, 0.08);
+    border-top: 1px solid rgba($color-30, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 
     h2 {
       color: $color-30;
       font-size: 24px;
       font-family: "Lexend", sans-serif;
       font-weight: 500;
+      margin-bottom: 16px;
     }
+    #leftColumnTitle {
+      position: absolute;
+      top: 32px;
+    }
+    .transcripts {
+      // flex-grow: 1;
+      margin-bottom: 16px;
+    }
+
     p {
       color: $color-30;
-      background: $color-10;
-      padding: 12px;
-      border-radius: 12px;
-      width: fit-content;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      width: 100%;
       margin-top: 8px;
+    }
+
+    #record-button {
+      background-color: $color-10;
+      color: $color-30;
+      border: none;
+      border-radius: 24px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: darken($color-10, 10%);
+      }
+
+      img {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+      }
+
+      &.Active {
+        border: 1px solid $color-10;
+        background: $color-60-black-alt;
+      }
+      &.Active:hover {
+        background: $color-60-black;
+        background-color: $color-10;
+      }
     }
   }
 
@@ -80,11 +129,16 @@
     border-radius: 24px;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
-    border-top: 1px solid rgba($color-30, 0.08); // Thay border màu đỏ
+    border-left: 1px solid rgba($color-30, 0.08);
+    border-top: 1px solid rgba($color-30, 0.08);
     overflow: hidden;
     ::-webkit-scrollbar {
       display: none;
+    }
+
+    .ResponseAwaiting {
+      width: auto;
+      text-align: center;
     }
   }
 }
@@ -94,6 +148,7 @@
   padding: 0 24px 24px;
   display: flex;
   gap: 24px;
+  transition: all 1.33s cubic-bezier(0.25, 0, 0, 1);
 }
 
 .config-panel {
@@ -125,13 +180,18 @@
 .messages-container {
   flex: 1;
   padding: 24px 16px;
-  margin-bottom: 24px;
+  padding-bottom: 8px;
+  margin-bottom: 48px;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column-reverse; // Change this to column
   gap: 16px;
   overflow-y: scroll;
-  // justify-content: flex-end;
-  // max-height: calc(100vh - 200px); /* Adjust based on your layout */
+}
+
+.ContentAwaiting {
+  align-items: center;
+  justify-content: center;
+  background: $color-60-black-alt;
 }
 
 .message {
@@ -140,14 +200,14 @@
   max-width: 80%;
 
   &.received {
-    align-self: flex-start; // Thay đổi từ flex-end sang flex-start
-    background: $color-10; // Sử dụng màu đỏ cho tin nhắn nhận
+    align-self: flex-start;
+    background: $color-10;
     color: $color-30;
   }
 
   &.sent {
-    align-self: flex-end; // Thay đổi từ flex-start sang flex-end
-    background: $color-60-alt; // Sử dụng màu xám cho tin nhắn gửi
+    align-self: flex-end;
+    background: $color-60-alt;
     color: $color-30;
   }
 
