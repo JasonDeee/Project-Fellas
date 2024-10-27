@@ -1,7 +1,7 @@
 {
-  "isFinal": null,
-  "speech": null,
-  "contents": null,
-  "Concluded": null,
-  "ResolveStep": 0
+  "isFinal": "boolean",
+  "contents": "string",
+  "speech": "string",
+  "Concluded": "string",
+  "ResolveStep": "integer"
 }

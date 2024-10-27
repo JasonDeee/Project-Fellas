@@ -1,0 +1,23 @@
+[
+  {
+    "name": "isFinal",
+    "role": "Bạn có cần tôi cung cấp thêm lịch sử của đoạn chat cũ hơn không? nếu có hãy trả về false, nếu không hãy trả về true"
+  },
+
+  {
+    "name": "contents",
+    "role": "Hãy trả về nội dung sau khi xử lý vào đây. Nếu chưa Final được và ResolveStep nhỏ hơn 3 hãy trả về string rỗng"
+  },
+  {
+    "name": "speech",
+    "role": "Trường này giống với Contents nhưng bạn hãy có gắng tối ưu cho việc tổng hợp thành giọng nói. Nếu chưa Final được hãy trả về string dạng \"Hãy chờ tôi một lát.\""
+  },
+  {
+    "name": "Concluded",
+    "role": "Hãy tóm gọn lại những gì chúng ta vừa hỏi và trả lời trong trường này ở dạng string, nếu bạn chưa thể tóm gọn vì chưa Final, hãy trả về false"
+  },
+  {
+    "name": "ResolveStep",
+    "role": "Hãy thêm 1 đơn vị vào ResolveStep khi trả về cho tôi. Nếu khi bạn nhận được giá trị này là 2, hãy cố gắng hoàn tất (Final) công việc và trả về kết quả là 3 như bình thường. Nếu không thể Final, hãy gửi về ở trường Contents và Speech: \"Tôi không thể hoàn tất công việc này\") và gửi về là 3."
+  }
+]

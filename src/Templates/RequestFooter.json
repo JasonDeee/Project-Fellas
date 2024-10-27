@@ -1,22 +1,23 @@
 [
   {
     "name": "isFinal",
-    "role": "Bạn có cần tôi cung cấp thêm lịch sử của đoạn chat cũ hơn không? nếu có hãy trả về false, nếu không hãy trả về true"
+    "role": "Do you need me to provide more chat history? If so, return false; otherwise, return true."
+  },
+
+  {
+    "name": "contents",
+    "role": "Return the processed content here. If it is not Final and ResolveStep is less than 3, return an empty string."
   },
   {
     "name": "speech",
-    "role": "Bạn muốn nói gì với tôi? Nếu bạn chưa có câu trả lời hãy trả về nội dung có dạng: \"Hãy chờ tôi một lát.\""
-  },
-  {
-    "name": "contents",
-    "role": "Bạn sẽ trả về nội dung của câu hỏi cuối cùng của người dùng"
+    "role": "This field is similar to Contents, but you should optimize it for speech synthesis. If it is not Final, return a string like \"Please wait a moment.\""
   },
   {
     "name": "Concluded",
-    "role": "Hãy tóm gọn lại những gì chúng ta vừa hỏi và trả lời trong trường này, nếu bạn vẫn cần thêm lịch sử của đoạn chat cũ và chưa thể tóm gọn hãy trả về false"
+    "role": "Summarize what we just asked and answered in this field as a string. If you cannot summarize because it is not yet Final, return an empty string."
   },
   {
     "name": "ResolveStep",
-    "role": "hãy cộng 1 vào ResolveStep khi trả về cho tôi trong bất cứ trường hợp nào"
+    "role": "Add 1 unit to ResolveStep when returning to me. If you receive this value as 2, try to complete (Final) the task and return 3 as usual. If Final is not possible, send  \"I cannot complete this task\" in the Contents and Speech fields and return 3."
   }
 ]

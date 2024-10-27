@@ -18,13 +18,6 @@ const apiUrl =
 const apiKey = "AIzaSyDbbfqZ5VC6v4AdmugerAtMfNOg2YdD5Pg";
 let isForceListeningOff = true;
 
-let messageCounter = 0;
-
-const generateUniqueId = () => {
-  messageCounter += 1;
-  return `msg_${Date.now()}_${messageCounter}`;
-};
-
 const formatMessage = (content) => {
   return content
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold text
@@ -96,15 +89,14 @@ function Javier() {
   const [isCallingJavier, setIsCallingJavier] = useState(false);
 
   const updateMessages = (newMessage) => {
-    setMessages((prevMessages) => {
-      // Kiểm tra xem tin nhắn đã tồn tại chưa
-      const isDuplicate = prevMessages.some((msg) => msg.id === newMessage.id);
-      if (isDuplicate) {
-        console.warn("Duplicate message detected:", newMessage);
-        return prevMessages;
-      }
-      return [...prevMessages, newMessage];
-    });
+    const messageWithId = {
+      ...newMessage,
+      id:
+        newMessage.id ||
+        `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    };
+    setMessages((prevMessages) => [...prevMessages, messageWithId]);
+    MessageByPass.current = [...MessageByPass.current, messageWithId];
   };
 
   const sendMessageToSheet = async (
@@ -112,21 +104,11 @@ function Javier() {
     type = "text",
     initialResolveStep = 0
   ) => {
-    const sentId = generateUniqueId();
-    const receivedId = generateUniqueId();
+    const tempId = Date.now().toString();
+    console.log("Current MessageByPass state:", MessageByPass.current);
 
-    // Chỉ thêm một tin nhắn "sent"
-    const sentMessage = {
-      id: sentId,
-      type: "sent",
-      content: message,
-      timestamp: new Date().toISOString(),
-    };
-    updateMessages(sentMessage);
-
-    // Thêm tin nhắn "received" với icon chờ
-    const receivedMessage = {
-      id: receivedId,
+    const newMessage = {
+      id: tempId,
       type: "received",
       content: (
         <lord-icon
@@ -139,7 +121,11 @@ function Javier() {
       ),
       className: "ResponseAwaiting",
     };
-    updateMessages(receivedMessage);
+
+    updateMessages(newMessage);
+
+    // Đợi một chút để đảm bảo state đã được cập nhật
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     let tempSheetData = {
       Request: message,
@@ -185,21 +171,20 @@ function Javier() {
 
       // Xử lý phản hồi từ Gemini API
       const responseText = geminiData.candidates[0].content.parts[0].text;
-      console.log("Raw API response:", responseText);
-
       const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
       let resolvedText;
 
       if (jsonMatch && jsonMatch[1]) {
         try {
           resolvedText = JSON.parse(jsonMatch[1]);
-          console.log("Parsed response:", resolvedText);
         } catch (parseError) {
           console.error("Error parsing JSON from Gemini response:", parseError);
+          console.log("Raw response:", responseText);
           throw new Error("Invalid JSON in Gemini response");
         }
       } else {
         console.error("No valid JSON found in Gemini response");
+        console.log("Raw response:", responseText);
         throw new Error("No JSON found in Gemini response");
       }
 
@@ -209,17 +194,11 @@ function Javier() {
         console.log("Processing final response");
         await speakText(resolvedText.speech);
         // Chỉ cập nhật tin nhắn ở đây
-        setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.id === receivedId
-              ? {
-                  type: "received",
-                  content: resolvedText.contents,
-                  className: "",
-                }
-              : msg
-          )
-        );
+        updateMessages({
+          type: "received",
+          content: resolvedText.contents,
+          className: "",
+        });
 
         // Cập nhật tempSheetData
         tempSheetData.isFinal = true;
@@ -244,17 +223,11 @@ function Javier() {
         console.log("Processing intermediate response");
         await speakText(resolvedText.speech);
         // Chỉ cập nhật tin nhắn ở đây
-        setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.id === receivedId
-              ? {
-                  type: "received",
-                  content: resolvedText.speech,
-                  className: "",
-                }
-              : msg
-          )
-        );
+        updateMessages({
+          type: "received",
+          content: resolvedText.speech,
+          className: "",
+        });
 
         // Cập nhật tempSheetData
         if (resolvedText.ResolveStep === 1)
@@ -272,10 +245,10 @@ function Javier() {
         } else {
           // Khi ResolveStep = 3 nhưng vẫn chưa Final
           tempSheetData.ResolveC = "I cannot complete this task";
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { type: "received", content: "I cannot complete this task" },
-          ]);
+          updateMessages({
+            type: "received",
+            content: "I cannot complete this task",
+          });
 
           // Gửi dữ liệu đến Google Sheets
           const sheetResponse = await fetch(apiUrl, {
@@ -292,27 +265,20 @@ function Javier() {
       }
 
       // Cập nhật tin nhắn "đang chờ" với nội dung thực tế và xóa class tạm thời
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === receivedId
-            ? { ...msg, content: resolvedText.contents, className: "" }
-            : msg
-        )
-      );
+      updateMessages({
+        ...MessageByPass.current.find((msg) => msg.id === tempId),
+        content: resolvedText.contents,
+        className: "",
+      });
     } catch (error) {
       console.error("Error in sendMessageToSheet:", error);
-      // Cập nhật tin nhắn "received" với thông báo lỗi
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === receivedId
-            ? {
-                ...msg,
-                content: "Error processing request",
-                className: "error",
-              }
-            : msg
-        )
-      );
+      const errorMessage = {
+        id: tempId,
+        type: "received",
+        content: "Failed to process and send message",
+        className: "",
+      };
+      updateMessages(errorMessage);
     }
   };
 
@@ -330,30 +296,18 @@ function Javier() {
 
         const fetchedMessages = reversedData.flatMap((item) => {
           const messages = [];
-          messages.push({
-            type: "sent",
-            content: item.Request,
-            timestamp: item.TimeStamp,
-            id: generateUniqueId(),
-          });
+          messages.push({ type: "sent", content: item.Request });
           messages.push({
             type: "received",
             content: item.ResolveA,
             timestamp: item.TimeStamp,
-            id: generateUniqueId(),
           });
           if (item.ResolveB) {
-            messages.push({
-              type: "sent",
-              content: item.ResolveB,
-              timestamp: item.TimeStamp,
-              id: generateUniqueId(),
-            });
+            messages.push({ type: "sent", content: item.ResolveB });
             messages.push({
               type: "received",
               content: item.ResolveC || "No response",
               timestamp: item.TimeStamp,
-              id: generateUniqueId(),
             });
           }
           return messages;
@@ -384,6 +338,7 @@ function Javier() {
         const current = event.resultIndex;
         const transcriptText = event.results[current][0].transcript;
         setTranscript(transcriptText);
+        console.log("Current messages state inside useEffect:", messages);
 
         if (
           isFocusing === true &&
@@ -395,10 +350,10 @@ function Javier() {
           isFocusing = false;
 
           // Add voice command to messages at the end of the array
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { type: "sent", content: `Voice: ${transcriptText}` },
-          ]);
+          updateMessages({
+            type: "sent",
+            content: `Voice: ${transcriptText}`,
+          });
 
           // Send voice command to Google Sheets and Gemini
           const voiceCommand = transcriptText.replace(/javier/i, "").trim();
@@ -530,14 +485,10 @@ function Javier() {
 
     const voiceCommand = transcriptText.replace(/javier/i, "").trim();
     if (voiceCommand) {
-      const newMessage = {
-        type: "sent",
-        content: `Voice: ${voiceCommand}`,
-        timestamp: new Date().toISOString(),
-        id: generateUniqueId(),
-      };
+      const newMessage = { type: "sent", content: `Voice: ${voiceCommand}` };
       updateMessages(newMessage);
 
+      // Đợi một chút để đảm bảo state đã được cập nhật
       setTimeout(() => {
         sendMessageToSheet(voiceCommand, "voice");
       }, 0);
@@ -565,15 +516,14 @@ function Javier() {
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
-    const newMessage = {
+    // Add new message to the end of the array
+    updateMessages({
       type: "sent",
       content: inputMessage,
-      timestamp: new Date().toISOString(),
-      id: generateUniqueId(),
-    };
-    updateMessages(newMessage);
+    });
     setInputMessage("");
 
+    // Use the sendMessageToSheet function
     await sendMessageToSheet(inputMessage);
   };
 
@@ -650,21 +600,24 @@ function Javier() {
               ></lord-icon>
             ) : (
               // Reverse the order of messages when rendering
-              [...messages].reverse().map((message) => (
+              [...messages].reverse().map((message, index) => (
                 <div
-                  key={message.id || `msg_${Date.now()}_${Math.random()}`}
+                  key={
+                    message.id ||
+                    `message-${index}-${Date.now()}-${Math.random()}`
+                  }
                   className={`message ${message.type} ${
                     message.className || ""
                   }`}
                 >
-                  {React.isValidElement(message.content) ? (
-                    message.content
-                  ) : (
+                  {typeof message.content === "string" ? (
                     <p
                       dangerouslySetInnerHTML={{
                         __html: formatMessage(message.content),
                       }}
                     />
+                  ) : (
+                    message.content
                   )}
                 </div>
               ))

@@ -96,15 +96,18 @@ function Javier() {
   const [isCallingJavier, setIsCallingJavier] = useState(false);
 
   const updateMessages = (newMessage) => {
-    setMessages((prevMessages) => {
-      // Kiểm tra xem tin nhắn đã tồn tại chưa
-      const isDuplicate = prevMessages.some((msg) => msg.id === newMessage.id);
-      if (isDuplicate) {
-        console.warn("Duplicate message detected:", newMessage);
-        return prevMessages;
-      }
-      return [...prevMessages, newMessage];
-    });
+    const formattedMessage = {
+      id: newMessage.id || generateUniqueId(),
+      type: newMessage.type,
+      content:
+        typeof newMessage.content === "string"
+          ? newMessage.content
+          : JSON.stringify(newMessage.content),
+      timestamp: newMessage.timestamp || new Date().toISOString(),
+      className: newMessage.className || "",
+    };
+    setMessages((prevMessages) => [...prevMessages, formattedMessage]);
+    MessageByPass.current = [...MessageByPass.current, formattedMessage];
   };
 
   const sendMessageToSheet = async (
@@ -112,34 +115,17 @@ function Javier() {
     type = "text",
     initialResolveStep = 0
   ) => {
-    const sentId = generateUniqueId();
-    const receivedId = generateUniqueId();
+    const tempId = generateUniqueId();
+    console.log("Current MessageByPass state:", MessageByPass.current);
 
-    // Chỉ thêm một tin nhắn "sent"
-    const sentMessage = {
-      id: sentId,
+    const newMessage = {
+      id: generateUniqueId(),
       type: "sent",
       content: message,
       timestamp: new Date().toISOString(),
     };
-    updateMessages(sentMessage);
 
-    // Thêm tin nhắn "received" với icon chờ
-    const receivedMessage = {
-      id: receivedId,
-      type: "received",
-      content: (
-        <lord-icon
-          src="https://cdn.lordicon.com/lqxfrxad.json"
-          colors="primary:#ffffff"
-          trigger="loop"
-          state="loop-scale"
-          style={{ width: "64px", height: "32px" }}
-        ></lord-icon>
-      ),
-      className: "ResponseAwaiting",
-    };
-    updateMessages(receivedMessage);
+    updateMessages(newMessage);
 
     let tempSheetData = {
       Request: message,
@@ -185,21 +171,20 @@ function Javier() {
 
       // Xử lý phản hồi từ Gemini API
       const responseText = geminiData.candidates[0].content.parts[0].text;
-      console.log("Raw API response:", responseText);
-
       const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/);
       let resolvedText;
 
       if (jsonMatch && jsonMatch[1]) {
         try {
           resolvedText = JSON.parse(jsonMatch[1]);
-          console.log("Parsed response:", resolvedText);
         } catch (parseError) {
           console.error("Error parsing JSON from Gemini response:", parseError);
+          console.log("Raw response:", responseText);
           throw new Error("Invalid JSON in Gemini response");
         }
       } else {
         console.error("No valid JSON found in Gemini response");
+        console.log("Raw response:", responseText);
         throw new Error("No JSON found in Gemini response");
       }
 
@@ -211,7 +196,7 @@ function Javier() {
         // Chỉ cập nhật tin nhắn ở đây
         setMessages((prevMessages) =>
           prevMessages.map((msg) =>
-            msg.id === receivedId
+            msg.id === tempId
               ? {
                   type: "received",
                   content: resolvedText.contents,
@@ -246,7 +231,7 @@ function Javier() {
         // Chỉ cập nhật tin nhắn ở đây
         setMessages((prevMessages) =>
           prevMessages.map((msg) =>
-            msg.id === receivedId
+            msg.id === tempId
               ? {
                   type: "received",
                   content: resolvedText.speech,
@@ -294,25 +279,20 @@ function Javier() {
       // Cập nhật tin nhắn "đang chờ" với nội dung thực tế và xóa class tạm thời
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
-          msg.id === receivedId
+          msg.id === tempId
             ? { ...msg, content: resolvedText.contents, className: "" }
             : msg
         )
       );
     } catch (error) {
       console.error("Error in sendMessageToSheet:", error);
-      // Cập nhật tin nhắn "received" với thông báo lỗi
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === receivedId
-            ? {
-                ...msg,
-                content: "Error processing request",
-                className: "error",
-              }
-            : msg
-        )
-      );
+      const errorMessage = {
+        id: tempId,
+        type: "received",
+        content: "Failed to process and send message",
+        className: "",
+      };
+      updateMessages(errorMessage);
     }
   };
 
@@ -384,6 +364,7 @@ function Javier() {
         const current = event.resultIndex;
         const transcriptText = event.results[current][0].transcript;
         setTranscript(transcriptText);
+        console.log("Current messages state inside useEffect:", messages);
 
         if (
           isFocusing === true &&
@@ -657,14 +638,14 @@ function Javier() {
                     message.className || ""
                   }`}
                 >
-                  {React.isValidElement(message.content) ? (
-                    message.content
-                  ) : (
+                  {typeof message.content === "string" ? (
                     <p
                       dangerouslySetInnerHTML={{
                         __html: formatMessage(message.content),
                       }}
                     />
+                  ) : (
+                    message.content
                   )}
                 </div>
               ))

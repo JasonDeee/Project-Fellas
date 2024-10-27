@@ -112,34 +112,16 @@ function Javier() {
     type = "text",
     initialResolveStep = 0
   ) => {
-    const sentId = generateUniqueId();
-    const receivedId = generateUniqueId();
+    const tempId = generateUniqueId();
 
-    // Chỉ thêm một tin nhắn "sent"
-    const sentMessage = {
-      id: sentId,
+    // Chỉ thêm tin nhắn người dùng một lần
+    const newMessage = {
+      id: tempId,
       type: "sent",
       content: message,
       timestamp: new Date().toISOString(),
     };
-    updateMessages(sentMessage);
-
-    // Thêm tin nhắn "received" với icon chờ
-    const receivedMessage = {
-      id: receivedId,
-      type: "received",
-      content: (
-        <lord-icon
-          src="https://cdn.lordicon.com/lqxfrxad.json"
-          colors="primary:#ffffff"
-          trigger="loop"
-          state="loop-scale"
-          style={{ width: "64px", height: "32px" }}
-        ></lord-icon>
-      ),
-      className: "ResponseAwaiting",
-    };
-    updateMessages(receivedMessage);
+    updateMessages(newMessage);
 
     let tempSheetData = {
       Request: message,
@@ -211,7 +193,7 @@ function Javier() {
         // Chỉ cập nhật tin nhắn ở đây
         setMessages((prevMessages) =>
           prevMessages.map((msg) =>
-            msg.id === receivedId
+            msg.id === tempId
               ? {
                   type: "received",
                   content: resolvedText.contents,
@@ -246,7 +228,7 @@ function Javier() {
         // Chỉ cập nhật tin nhắn ở đây
         setMessages((prevMessages) =>
           prevMessages.map((msg) =>
-            msg.id === receivedId
+            msg.id === tempId
               ? {
                   type: "received",
                   content: resolvedText.speech,
@@ -294,25 +276,20 @@ function Javier() {
       // Cập nhật tin nhắn "đang chờ" với nội dung thực tế và xóa class tạm thời
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
-          msg.id === receivedId
+          msg.id === tempId
             ? { ...msg, content: resolvedText.contents, className: "" }
             : msg
         )
       );
     } catch (error) {
       console.error("Error in sendMessageToSheet:", error);
-      // Cập nhật tin nhắn "received" với thông báo lỗi
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === receivedId
-            ? {
-                ...msg,
-                content: "Error processing request",
-                className: "error",
-              }
-            : msg
-        )
-      );
+      const errorMessage = {
+        id: tempId,
+        type: "received",
+        content: "Failed to process and send message",
+        className: "",
+      };
+      updateMessages(errorMessage);
     }
   };
 
@@ -657,14 +634,14 @@ function Javier() {
                     message.className || ""
                   }`}
                 >
-                  {React.isValidElement(message.content) ? (
-                    message.content
-                  ) : (
+                  {typeof message.content === "string" ? (
                     <p
                       dangerouslySetInnerHTML={{
                         __html: formatMessage(message.content),
                       }}
                     />
+                  ) : (
+                    message.content
                   )}
                 </div>
               ))
