@@ -344,7 +344,7 @@ function Javier() {
           });
           if (item.ResolveB) {
             messages.push({
-              type: "sent",
+              type: "received",
               content: item.ResolveB,
               timestamp: item.TimeStamp,
               id: generateUniqueId(),
@@ -536,7 +536,9 @@ function Javier() {
         timestamp: new Date().toISOString(),
         id: generateUniqueId(),
       };
-      updateMessages(newMessage);
+
+      // Đoạn updateMessages này sẽ gây ra lỗi tạo ra thẻ p 2 lần
+      // updateMessages(newMessage);
 
       setTimeout(() => {
         sendMessageToSheet(voiceCommand, "voice");
@@ -571,7 +573,10 @@ function Javier() {
       timestamp: new Date().toISOString(),
       id: generateUniqueId(),
     };
-    updateMessages(newMessage);
+
+    // Đoạn updateMessages này sẽ gây ra lỗi tạo ra thẻ p 2 lần
+    // updateMessages(newMessage);
+
     setInputMessage("");
 
     await sendMessageToSheet(inputMessage);
