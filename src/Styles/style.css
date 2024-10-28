@@ -267,7 +267,7 @@ audio {
 }
 
 .header {
-  padding: 24px 64px;
+  padding: 16px 64px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -307,7 +307,11 @@ audio {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  gap: 24px;
+  gap: 4px;
+}
+
+.header-right button {
+  padding: 0.75rem 1rem;
 }
 
 .two-column-layout {

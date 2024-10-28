@@ -12,7 +12,7 @@
 }
 
 .header {
-  padding: 24px 64px;
+  padding: 16px 64px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,7 +39,10 @@
 
   &-right {
     display: flex;
-    gap: 24px;
+    gap: 4px;
+    button {
+      padding: 0.75rem 1rem;
+    }
   }
 }
 
